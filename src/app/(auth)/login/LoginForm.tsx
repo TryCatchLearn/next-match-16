@@ -15,7 +15,7 @@ import { toast } from 'react-toastify';
 
 export default function LoginForm() {
     const router = useRouter();
-    const { register, handleSubmit, formState: { errors, isValid, isSubmitting } } = useForm({
+    const { register, handleSubmit, formState: { errors, isValid, isSubmitting } } = useForm<LoginSchema>({
         resolver: zodResolver(loginSchema),
         mode: 'onTouched'
     });

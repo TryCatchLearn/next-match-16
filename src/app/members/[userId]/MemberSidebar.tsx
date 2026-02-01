@@ -3,25 +3,19 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Member } from "../../../../generated/prisma/client"
 import Image from 'next/image';
-import { calculateAge } from "@/lib/utils";
+import { calculateAge, transformImageUrl } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 
 type Props = {
-    member: Member
+    member: Member;
+    navLinks: {name: string, href: string}[];
 }
 
-export default function MemberSidebar({member}: Props) {
+export default function MemberSidebar({member, navLinks}: Props) {
     const pathname = usePathname();
-    const basePath = `/members/${member.userId}`
-
-    const navLinks = [
-        {name: 'Profile', href: `${basePath}`},
-        {name: 'Photos', href: `${basePath}/photos`},
-        {name: 'Chat', href: `${basePath}/chat`},
-    ]
 
     return (
         <Card className="w-full mt-10 items-center h-[80vh]">
@@ -29,9 +23,10 @@ export default function MemberSidebar({member}: Props) {
                 alt={member.name}
                 width={300}
                 height={300}
-                src={member?.imageUrl || '/images/user.png'}
+                src={transformImageUrl(member?.imageUrl) || '/images/user.png'}
                 className="rounded-lg"
                 unoptimized
+                loading="eager"
             />
             <CardContent>
                 <div className="flex flex-col items-center">

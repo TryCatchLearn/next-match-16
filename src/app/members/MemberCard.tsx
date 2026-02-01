@@ -2,7 +2,7 @@ import Link from "next/link"
 import { Member } from "../../../generated/prisma/client"
 import { Card, CardFooter } from "@/components/ui/card"
 import Image from "next/image"
-import { calculateAge } from "@/lib/utils"
+import { calculateAge, transformImageUrl } from "@/lib/utils"
 import LikeButton from "@/components/LikeButton"
 
 type Props = {
@@ -22,9 +22,10 @@ export default function MemberCard({ member, likeIds }: Props) {
                         alt={member.name}
                         width={300}
                         height={300}
-                        src={member.imageUrl || '/images/user.png'}
+                        src={transformImageUrl(member.imageUrl) || '/images/user.png'}
                         className="rounded-lg"
                         unoptimized
+                        loading="eager"
                     />
                     <div className="absolute top-3 right-3 z-20">
                         <LikeButton targetUserId={member.userId} hasLiked={hasLiked} />

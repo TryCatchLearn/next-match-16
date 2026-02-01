@@ -5,6 +5,8 @@ import { User } from "better-auth";
 import { useRouter } from "next/navigation";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import Link from "next/link";
+import { transformImageUrl } from "@/lib/utils";
 
 type Props = {
     user: User
@@ -28,7 +30,7 @@ export default function UserMenu({ user }: Props) {
         <DropdownMenu>
             <DropdownMenuTrigger>
                 <Avatar size="lg">
-                    <AvatarImage src={user?.image || ''} alt={user.name || 'User image'} />
+                    <AvatarImage src={transformImageUrl(user?.image) || ''} alt={user.name || 'User image'} />
                     <AvatarFallback>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>
@@ -40,10 +42,13 @@ export default function UserMenu({ user }: Props) {
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuItem textValue="Edit profile">
-                    Edit profile
+                    <Link href={`/members/${user.id}`}>
+                        Edit profile
+                    </Link>
+
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="text-destructive" onClick={signOut} 
+                <DropdownMenuItem className="text-destructive" onClick={signOut}
                     textValue="Logout"
                 >
                     Log out
